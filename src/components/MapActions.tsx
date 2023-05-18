@@ -1,13 +1,14 @@
+import { ReactNode, useState } from 'react';
 import {
   AirplanemodeActive,
   DirectionsBoat,
   DirectionsCar,
-} from "@mui/icons-material";
-import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
-import { ReactNode, useState } from "react";
-import { Environment } from "~/types/Contact";
+} from '@mui/icons-material';
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 
-export type PlacementMode = Environment | "NONE";
+import { Environment } from '~/types/Contact';
+
+export type PlacementMode = Environment | 'NONE';
 
 type PlacementModeDetails = {
   icon: ReactNode;
@@ -18,18 +19,18 @@ type PlacementModeDetails = {
 const speedDialActions: PlacementModeDetails[] = [
   {
     icon: <AirplanemodeActive />,
-    tooltipTitle: "Airborne",
-    placementMode: "AIR",
+    tooltipTitle: 'Airborne',
+    placementMode: 'AIR',
   },
   {
     icon: <DirectionsCar />,
-    tooltipTitle: "Ground",
-    placementMode: "LAND",
+    tooltipTitle: 'Ground',
+    placementMode: 'LAND',
   },
   {
     icon: <DirectionsBoat />,
-    tooltipTitle: "Naval",
-    placementMode: "SURFACE",
+    tooltipTitle: 'Naval',
+    placementMode: 'SURFACE',
   },
 ];
 
@@ -42,7 +43,7 @@ export default function MapActions(props: MapActionsProps) {
   const [open, setOpen] = useState(false);
 
   const speedDialStyles = {
-    position: "absolute",
+    position: 'absolute',
     bottom: props.offset ?? 16,
     right: props.offset ?? 16,
   };

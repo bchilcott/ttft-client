@@ -1,20 +1,22 @@
-import { Box } from "@mui/material";
-import { Map } from "leaflet";
-import "leaflet/dist/leaflet.css";
-import { Ref, forwardRef, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
-import MapActions, { PlacementMode } from "~/components/MapActions";
-import MarkersLayer from "~/components/MarkersLayer";
+import { Box } from '@mui/material';
+import { Map } from 'leaflet';
+
+import 'leaflet/dist/leaflet.css';
+import { Ref, forwardRef, useState } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
+
+import MapActions, { PlacementMode } from '~/components/MapActions';
+import MarkersLayer from '~/components/MarkersLayer';
 
 const LeafletMap = forwardRef((_props, ref: Ref<Map>) => {
-  const [placementMode, setPlacementMode] = useState<PlacementMode>("NONE");
+  const [placementMode, setPlacementMode] = useState<PlacementMode>('NONE');
 
   return (
-    <Box sx={{ height: "100%" }}>
+    <Box sx={{ height: '100%' }}>
       <MapContainer
         center={[51.505, -0.09]}
         zoom={13}
-        style={{ backgroundColor: "#222222", height: "100%", width: "100%" }}
+        style={{ backgroundColor: '#222222', height: '100%', width: '100%' }}
         zoomControl={false}
         attributionControl={false}
         ref={ref}
@@ -24,7 +26,7 @@ const LeafletMap = forwardRef((_props, ref: Ref<Map>) => {
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
         />
         <MarkersLayer
-          onContactCreated={() => setPlacementMode("NONE")}
+          onContactCreated={() => setPlacementMode('NONE')}
           placementMode={placementMode}
         />
       </MapContainer>
@@ -33,5 +35,5 @@ const LeafletMap = forwardRef((_props, ref: Ref<Map>) => {
   );
 });
 
-LeafletMap.displayName = "LeafletMap";
+LeafletMap.displayName = 'LeafletMap';
 export default LeafletMap;

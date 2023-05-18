@@ -1,20 +1,20 @@
-import Head from "next/head";
-import { Roboto } from "next/font/google";
-import dynamic from "next/dynamic";
-import { Box, Stack } from "@mui/material";
-import AppToolbar from "~/components/AppToolbar";
-import MapActions from "~/components/MapActions";
+import dynamic from 'next/dynamic';
+import { Roboto } from 'next/font/google';
+import Head from 'next/head';
+import { Box, Stack } from '@mui/material';
 
-const LeafletMap = dynamic(() => import("~/components/Map"), {
+import AppToolbar from '~/components/AppToolbar';
+
+const LeafletMap = dynamic(() => import('~/components/Map'), {
   ssr: false,
   loading: () => <p>Loading...</p>,
 });
 
 const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
-  style: ["normal", "italic"],
-  subsets: ["latin"],
-  display: "swap",
+  weight: ['300', '400', '500', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Stack className={`${roboto.className}`} sx={{ height: "100vh" }}>
+      <Stack className={`${roboto.className}`} sx={{ height: '100vh' }}>
         <AppToolbar />
         <Box sx={{ flexGrow: 1 }}>
           <LeafletMap />

@@ -1,6 +1,7 @@
-import { create } from "zustand";
-import Contact from "~/types/Contact";
-import { devtools, persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
+
+import Contact from '~/types/Contact';
 
 interface ContactsState {
   contacts: Contact[];
@@ -25,7 +26,7 @@ export default create<ContactsState>()(
         reset: () => set({ contacts: [], selectedId: null }),
       }),
       {
-        name: "contact-storage",
+        name: 'contact-storage',
       }
     )
   )

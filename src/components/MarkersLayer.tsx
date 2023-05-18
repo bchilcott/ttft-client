@@ -1,27 +1,27 @@
-import { Icon, icon } from "leaflet";
-import { LayerGroup, Marker, Popup, useMapEvents } from "react-leaflet";
-import { PlacementMode } from "~/components/MapActions";
-import useContactsStore from "~/state/useContactsStore";
-import Contact from "~/types/Contact";
-import { Environment } from "~/types/Contact";
+import { Icon, icon } from 'leaflet';
+import { LayerGroup, Marker, Popup, useMapEvents } from 'react-leaflet';
+
+import { PlacementMode } from '~/components/MapActions';
+import useContactsStore from '~/state/useContactsStore';
+import Contact, { Environment } from '~/types/Contact';
 
 const ICON_RED = icon({
   iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 });
 
 const ICON_GREEN = icon({
   iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png",
+    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 });
 
 const ICON_BLUE = icon({
   iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png",
+    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 });
@@ -31,17 +31,17 @@ function createContact(
   environment: Environment
 ): Contact {
   return {
-    name: "Test",
-    dataSource: "TTFT",
+    name: 'Test',
+    dataSource: 'TTFT',
     trackID: Math.random().toString(36),
-    type: "HELLO",
-    systemID: "CHALLENGER",
+    type: 'HELLO',
+    systemID: 'CHALLENGER',
     environment: environment,
     course: 0,
     speed: 0,
-    speedUnit: "MPH",
+    speedUnit: 'MPH',
     stale: false,
-    operation: "NEW",
+    operation: 'NEW',
     attitude: {
       pitch: 0,
       roll: 0,
@@ -51,18 +51,18 @@ function createContact(
       latitude: position[0],
       longitude: position[1],
       altitude: 0,
-      altitudeUnit: "FT AMSL",
+      altitudeUnit: 'FT AMSL',
     },
   };
 }
 
 function getIcon(environment: Environment): Icon {
   switch (environment) {
-    case "AIR":
+    case 'AIR':
       return ICON_RED;
-    case "LAND":
+    case 'LAND':
       return ICON_GREEN;
-    case "SURFACE":
+    case 'SURFACE':
       return ICON_BLUE;
     default:
       return ICON_RED;
@@ -80,7 +80,7 @@ export default function MarkersLayer(props: MarkersLayerProps) {
 
   useMapEvents({
     click: (e) => {
-      if (props.placementMode === "NONE") return;
+      if (props.placementMode === 'NONE') return;
       const contact = createContact(
         [e.latlng.lat, e.latlng.lng],
         props.placementMode

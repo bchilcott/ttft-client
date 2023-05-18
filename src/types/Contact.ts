@@ -1,21 +1,21 @@
-import { AltitudeUnit, SpeedUnit } from "~/types/Units";
+import { AltitudeUnit, SpeedUnit } from '~/types/Units';
 
 export type Operation =
-  | "NEW"
-  | "UPDATED"
-  | "DEAD_RECKONING"
-  | "TERMINATED"
-  | "TYPE CHANGE";
+  | 'NEW'
+  | 'UPDATED'
+  | 'DEAD_RECKONING'
+  | 'TERMINATED'
+  | 'TYPE CHANGE';
 
 export type Environment =
-  | "AIR"
-  | "LAND"
-  | "SURFACE"
-  | "SUBSURFACE"
-  | "EMERGENCY_POINT"
-  | "EW POINT"
-  | "SPACE"
-  | "OTHER";
+  | 'AIR'
+  | 'LAND'
+  | 'SURFACE'
+  | 'SUBSURFACE'
+  | 'EMERGENCY_POINT'
+  | 'EW POINT'
+  | 'SPACE'
+  | 'OTHER';
 
 export type Attitude = {
   pitch: number;
