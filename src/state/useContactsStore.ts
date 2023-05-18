@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-
 import Contact from '~/types/Contact';
+
 
 interface ContactsState {
   contacts: Contact[];
