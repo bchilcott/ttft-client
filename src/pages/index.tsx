@@ -30,7 +30,6 @@ export default function Home() {
         <AppToolbar />
         <Box sx={{ flexGrow: 1 }}>
           <LeafletMap />
-          <MapActions offset={16} />
         </Box>
       </Stack>
     </>

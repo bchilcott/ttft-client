@@ -1,9 +1,7 @@
-import { useAtom, useSetAtom } from "jotai";
 import { Icon, icon } from "leaflet";
 import { LayerGroup, Marker, Popup, useMapEvents } from "react-leaflet";
-import placementModeAtom from "~/state/jotai/placementModeAtom";
-import selectedContactAtom from "~/state/jotai/selectedContactAtom";
-import useContactsStore from "~/state/zustand/useContactsStore";
+import { PlacementMode } from "~/components/MapActions";
+import useContactsStore from "~/state/useContactsStore";
 import Contact from "~/types/Contact";
 import { Environment } from "~/types/Contact";
 
@@ -71,17 +69,24 @@ function getIcon(environment: Environment): Icon {
   }
 }
 
-export default function MarkersLayer() {
+export type MarkersLayerProps = {
+  placementMode: PlacementMode;
+  onContactCreated?: (contact: Contact) => void;
+};
+
+export default function MarkersLayer(props: MarkersLayerProps) {
   const contacts = useContactsStore((state) => state.contacts);
   const add = useContactsStore((state) => state.add);
-  const [placementMode, setPlacementMode] = useAtom(placementModeAtom);
-  const setSelectedContact = useSetAtom(selectedContactAtom);
 
   useMapEvents({
     click: (e) => {
-      if (placementMode === "NONE") return;
-      add(createContact([e.latlng.lat, e.latlng.lng], placementMode));
-      setPlacementMode("NONE");
+      if (props.placementMode === "NONE") return;
+      const contact = createContact(
+        [e.latlng.lat, e.latlng.lng],
+        props.placementMode
+      );
+      add(contact);
+      props.onContactCreated?.(contact);
     },
   });
 
@@ -93,12 +98,6 @@ export default function MarkersLayer() {
             key={index}
             position={[contact.position.latitude, contact.position.longitude]}
             icon={getIcon(contact.environment)}
-            eventHandlers={{
-              click: () => {
-                console.log(contact);
-                setSelectedContact(contact);
-              },
-            }}
           >
             <Popup>{contact.trackID}</Popup>
           </Marker>

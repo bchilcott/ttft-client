@@ -4,11 +4,10 @@ import {
   DirectionsCar,
 } from "@mui/icons-material";
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
-import { useSetAtom } from "jotai";
 import { ReactNode, useState } from "react";
-import placementModeAtom, {
-  PlacementMode,
-} from "~/state/jotai/placementModeAtom";
+import { Environment } from "~/types/Contact";
+
+export type PlacementMode = Environment | "NONE";
 
 type PlacementModeDetails = {
   icon: ReactNode;
@@ -34,14 +33,18 @@ const speedDialActions: PlacementModeDetails[] = [
   },
 ];
 
-export default function MapActions({ offset = 16 }) {
+export type MapActionsProps = {
+  offset?: number;
+  setPlacementMode: (mode: PlacementMode) => void;
+};
+
+export default function MapActions(props: MapActionsProps) {
   const [open, setOpen] = useState(false);
-  const setPlacementMode = useSetAtom(placementModeAtom);
 
   const speedDialStyles = {
     position: "absolute",
-    bottom: offset,
-    right: offset,
+    bottom: props.offset ?? 16,
+    right: props.offset ?? 16,
   };
 
   const handleOpen = () => {
@@ -63,7 +66,7 @@ export default function MapActions({ offset = 16 }) {
           tooltipTitle={action.tooltipTitle}
           onClick={() => {
             setOpen(false);
-            setPlacementMode(action.placementMode);
+            props.setPlacementMode(action.placementMode);
           }}
         />
       ))}
