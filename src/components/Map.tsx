@@ -1,8 +1,7 @@
-import { Box } from '@mui/material';
 import { Map } from 'leaflet';
 
 import 'leaflet/dist/leaflet.css';
-import { Ref, forwardRef, useState } from 'react';
+import { forwardRef, useState, Ref } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import MapActions, { PlacementMode } from '~/components/MapActions';
@@ -12,11 +11,16 @@ const LeafletMap = forwardRef((_props, ref: Ref<Map>) => {
   const [placementMode, setPlacementMode] = useState<PlacementMode>('NONE');
 
   return (
-    <Box sx={{ height: '100%' }}>
+    <>
       <MapContainer
         center={[51.505, -0.09]}
         zoom={13}
-        style={{ backgroundColor: '#222222', height: '100%', width: '100%' }}
+        style={{
+          backgroundColor: '#222222',
+          height: '100%',
+          width: '100%',
+          cursor: placementMode === 'NONE' ? 'grab' : 'crosshair',
+        }}
         zoomControl={false}
         attributionControl={false}
         ref={ref}
@@ -30,8 +34,8 @@ const LeafletMap = forwardRef((_props, ref: Ref<Map>) => {
           placementMode={placementMode}
         />
       </MapContainer>
-      <MapActions setPlacementMode={setPlacementMode} />
-    </Box>
+      <MapActions onSelect={setPlacementMode} />
+    </>
   );
 });
 

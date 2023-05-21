@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { useState, ReactNode } from 'react';
 import {
   AirplanemodeActive,
   DirectionsBoat,
@@ -36,7 +36,7 @@ const speedDialActions: PlacementModeDetails[] = [
 
 export type MapActionsProps = {
   offset?: number;
-  setPlacementMode: (mode: PlacementMode) => void;
+  onSelect: (mode: PlacementMode) => void;
 };
 
 export default function MapActions(props: MapActionsProps) {
@@ -67,7 +67,7 @@ export default function MapActions(props: MapActionsProps) {
           tooltipTitle={action.tooltipTitle}
           onClick={() => {
             setOpen(false);
-            props.setPlacementMode(action.placementMode);
+            props.onSelect(action.placementMode);
           }}
         />
       ))}

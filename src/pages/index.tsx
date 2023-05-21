@@ -1,13 +1,25 @@
+import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
-import { Box, Stack } from '@mui/material';
+import { Box, CircularProgress, Stack } from '@mui/material';
 
 import AppToolbar from '~/components/AppToolbar';
 
 const LeafletMap = dynamic(() => import('~/components/Map'), {
   ssr: false,
-  loading: () => <p>Loading...</p>,
+  loading: () => (
+    <Box
+      sx={{
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  ),
 });
 
 const roboto = Roboto({
@@ -18,6 +30,10 @@ const roboto = Roboto({
 });
 
 export default function Home() {
+  useEffect(() => {
+    console.log('Home page loaded');
+  });
+
   return (
     <>
       <Head>

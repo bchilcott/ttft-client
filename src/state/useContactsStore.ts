@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import Contact from '~/types/Contact';
 
-
 interface ContactsState {
   contacts: Contact[];
   selectedId: string | null;
@@ -22,7 +21,7 @@ export default create<ContactsState>()(
             contacts: [...state.contacts, contact],
             selectedId: contact.trackID,
           })),
-        setSelected: (trackId) => set((state) => ({ selectedId: trackId })),
+        setSelected: (trackId) => set(() => ({ selectedId: trackId })),
         reset: () => set({ contacts: [], selectedId: null }),
       }),
       {
