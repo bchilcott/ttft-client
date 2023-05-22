@@ -1,7 +1,7 @@
 import { Icon, icon } from 'leaflet';
 import { LayerGroup, Marker, Popup, useMapEvents } from 'react-leaflet';
+import { PlacementMode } from '~/components/Map/MapActions';
 
-import { PlacementMode } from '~/components/MapActions';
 import useContactsStore from '~/state/useContactsStore';
 import Contact, { Environment } from '~/types/Contact';
 
@@ -37,8 +37,8 @@ function createContact(
     type: 'HELLO',
     systemID: 'CHALLENGER',
     environment: environment,
-    course: 0,
-    speed: 0,
+    course: 45,
+    speed: 100,
     speedUnit: 'MPH',
     stale: false,
     operation: 'NEW',

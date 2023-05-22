@@ -6,7 +6,8 @@ interface ContactsState {
   contacts: Contact[];
   selectedId: string | null;
   add: (contact: Contact) => void;
-  setSelected: (id: string) => void;
+  selectOne: (trackId: string) => void;
+  setAll: (contacts: Contact[]) => void;
   reset: () => void;
 }
 
@@ -21,8 +22,9 @@ export default create<ContactsState>()(
             contacts: [...state.contacts, contact],
             selectedId: contact.trackID,
           })),
-        setSelected: (trackId) => set(() => ({ selectedId: trackId })),
+        selectOne: (trackId) => set(() => ({ selectedId: trackId })),
         reset: () => set({ contacts: [], selectedId: null }),
+        setAll: (contacts) => set(() => ({ contacts })),
       }),
       {
         name: 'contact-storage',

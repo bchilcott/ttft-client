@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
 import { Box, CircularProgress, Stack } from '@mui/material';
 
 import AppToolbar from '~/components/AppToolbar';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import { useState } from 'react';
+import { Map } from 'leaflet';
 
 const LeafletMap = dynamic(() => import('~/components/Map'), {
   ssr: false,
@@ -30,9 +32,12 @@ const roboto = Roboto({
 });
 
 export default function Home() {
-  useEffect(() => {
-    console.log('Home page loaded');
-  });
+  const [map, setMap] = useState<Map | null>(null);
+
+  // Continuously update the map size when split view is resized
+  const onResize = () => {
+    map && map.invalidateSize();
+  };
 
   return (
     <>
@@ -45,7 +50,17 @@ export default function Home() {
       <Stack className={`${roboto.className}`} sx={{ height: '100vh' }}>
         <AppToolbar />
         <Box sx={{ flexGrow: 1 }}>
-          <LeafletMap />
+          <PanelGroup direction="horizontal">
+            <Panel defaultSize={70} onResize={onResize}>
+              <LeafletMap onLoad={setMap} />
+            </Panel>
+            <PanelResizeHandle style={{ width: '4px' }} />
+            <Panel defaultSize={30} minSize={20} maxSize={40}>
+              <Box sx={{ width: '100%', height: '100%', overflow: 'auto' }}>
+                stuff
+              </Box>
+            </Panel>
+          </PanelGroup>
         </Box>
       </Stack>
     </>

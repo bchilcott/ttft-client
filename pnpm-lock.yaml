@@ -16,6 +16,7 @@ specifiers:
   eslint: 8.40.0
   eslint-config-next: 13.4.2
   eslint-config-prettier: ^8.8.0
+  geolib: ^3.3.3
   leaflet: ^1.9.3
   next: 13.4.2
   prettier: ^2.8.8
@@ -32,6 +33,7 @@ dependencies:
   '@emotion/styled': 11.11.0_gwsnvbfty4jua3m4tf74x4grui
   '@mui/icons-material': 5.11.16_cihqjpkbuck2futacyun567qmi
   '@mui/material': 5.13.0_iv5go3rgyvd4fx7f3hepohh5uu
+  geolib: 3.3.3
   leaflet: 1.9.3
   next: 13.4.2_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
@@ -1781,6 +1783,10 @@ packages:
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
+
+  /geolib/3.3.3:
+    resolution: {integrity: sha512-YO704pzdB/8QQekQuDmFD5uv5RAwAf4rOUPdcMhdEOz+HoPWD0sC7Qqdwb+LAvwIjXVRawx0QgZlocKYh8PFOQ==}
+    dev: false
 
   /get-caller-file/2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}

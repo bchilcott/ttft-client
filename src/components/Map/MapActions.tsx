@@ -35,7 +35,6 @@ const speedDialActions: PlacementModeDetails[] = [
 ];
 
 export type MapActionsProps = {
-  offset?: number;
   onSelect: (mode: PlacementMode) => void;
 };
 
@@ -44,8 +43,8 @@ export default function MapActions(props: MapActionsProps) {
 
   const speedDialStyles = {
     position: 'absolute',
-    bottom: props.offset ?? 16,
-    right: props.offset ?? 16,
+    left: 16,
+    bottom: 16,
   };
 
   const handleOpen = () => {
@@ -54,7 +53,7 @@ export default function MapActions(props: MapActionsProps) {
 
   return (
     <SpeedDial
-      ariaLabel="SpeedDial basic example"
+      ariaLabel="Select placement mode"
       sx={speedDialStyles}
       icon={<SpeedDialIcon />}
       onClick={handleOpen}
@@ -65,6 +64,8 @@ export default function MapActions(props: MapActionsProps) {
           key={action.tooltipTitle}
           icon={action.icon}
           tooltipTitle={action.tooltipTitle}
+          tooltipPlacement="right"
+          tooltipOpen
           onClick={() => {
             setOpen(false);
             props.onSelect(action.placementMode);

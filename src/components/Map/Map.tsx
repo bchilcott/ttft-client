@@ -3,15 +3,20 @@ import { Map } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { forwardRef, useState, Ref } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
+import MapActions, { PlacementMode } from './MapActions';
+import MarkersLayer from './MarkersLayer';
+import { Box } from '@mui/material';
 
-import MapActions, { PlacementMode } from '~/components/MapActions';
-import MarkersLayer from '~/components/MarkersLayer';
+type LeafletMapProps = {
+  onLoad?: (map: Map) => void;
+  actionOffset?: number;
+};
 
-const LeafletMap = forwardRef((_props, ref: Ref<Map>) => {
+const LeafletMap = forwardRef((props: LeafletMapProps, _ref: Ref<Map>) => {
   const [placementMode, setPlacementMode] = useState<PlacementMode>('NONE');
 
   return (
-    <>
+    <Box sx={{ height: '100%' }}>
       <MapContainer
         center={[51.505, -0.09]}
         zoom={13}
@@ -23,7 +28,8 @@ const LeafletMap = forwardRef((_props, ref: Ref<Map>) => {
         }}
         zoomControl={false}
         attributionControl={false}
-        ref={ref}
+        ref={props.onLoad}
+        doubleClickZoom={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -35,7 +41,7 @@ const LeafletMap = forwardRef((_props, ref: Ref<Map>) => {
         />
       </MapContainer>
       <MapActions onSelect={setPlacementMode} />
-    </>
+    </Box>
   );
 });
 
