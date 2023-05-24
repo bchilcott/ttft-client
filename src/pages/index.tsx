@@ -1,12 +1,13 @@
 import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
-import { Box, CircularProgress, Stack } from '@mui/material';
+import { Box, CircularProgress, Container, Stack } from '@mui/material';
 
 import AppToolbar from '~/components/AppToolbar';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { useState } from 'react';
 import { Map } from 'leaflet';
+import SidePanel from '~/components/SidePanel/SidePanel';
 
 const LeafletMap = dynamic(() => import('~/components/Map'), {
   ssr: false,
@@ -56,8 +57,13 @@ export default function Home() {
             </Panel>
             <PanelResizeHandle style={{ width: '4px' }} />
             <Panel defaultSize={30} minSize={20} maxSize={40}>
-              <Box sx={{ width: '100%', height: '100%', overflow: 'auto' }}>
-                stuff
+              <Box
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <SidePanel />
               </Box>
             </Panel>
           </PanelGroup>

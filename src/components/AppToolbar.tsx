@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AppBar, Button, Stack, Toolbar, Typography } from '@mui/material';
 
 import ConfirmResetDialog from '~/components/ConfirmResetDialog';
-import useContactsStore from '~/state/useContactsStore';
+import useContactsStore from '~/hooks/useContactsStore';
 
 export default function AppToolbar() {
   const [isOpen, setIsOpen] = useState(false);

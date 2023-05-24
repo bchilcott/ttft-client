@@ -2,7 +2,7 @@ import Contact from '~/types/Contact';
 import { SpeedUnit } from '~/types/Units';
 import { computeDestinationPoint } from 'geolib';
 
-export function updateContact(
+export function updateContactPosition(
   contact: Contact,
   refreshPeriod: number
 ): Contact {

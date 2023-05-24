@@ -1,9 +1,11 @@
 import { Icon, icon } from 'leaflet';
-import { LayerGroup, Marker, Popup, useMapEvents } from 'react-leaflet';
+import { useEffect } from 'react';
+import { LayerGroup, Marker, useMapEvents } from 'react-leaflet';
 import { PlacementMode } from '~/components/Map/MapActions';
 
-import useContactsStore from '~/state/useContactsStore';
+import useContactsStore from '~/hooks/useContactsStore';
 import Contact, { Environment } from '~/types/Contact';
+import { updateContactPosition } from '~/utils/contactUtils';
 
 const ICON_RED = icon({
   iconUrl:
@@ -33,11 +35,11 @@ function createContact(
   return {
     name: 'Test',
     dataSource: 'TTFT',
-    trackID: Math.random().toString(36),
+    trackID: Math.random().toString(36).substr(2, 9).toUpperCase(),
     type: 'HELLO',
     systemID: 'CHALLENGER',
     environment: environment,
-    course: 45,
+    course: Math.random() * 360,
     speed: 100,
     speedUnit: 'MPH',
     stale: false,
@@ -74,9 +76,23 @@ export type MarkersLayerProps = {
   onContactCreated?: (contact: Contact) => void;
 };
 
+const PERIOD_IN_SECONDS = 1;
+
 export default function MarkersLayer(props: MarkersLayerProps) {
-  const contacts = useContactsStore((state) => state.contacts);
-  const add = useContactsStore((state) => state.add);
+  const { contacts, add, setAll, selectOne } = useContactsStore(
+    (state) => state
+  );
+
+  useEffect(() => {
+    const int = setInterval(() => {
+      const updated = contacts.map((contact) =>
+        updateContactPosition(contact, 1)
+      );
+      setAll(updated);
+    }, 1000 * PERIOD_IN_SECONDS);
+
+    return () => clearInterval(int);
+  }, [contacts, setAll]);
 
   useMapEvents({
     click: (e) => {
@@ -98,9 +114,10 @@ export default function MarkersLayer(props: MarkersLayerProps) {
             key={index}
             position={[contact.position.latitude, contact.position.longitude]}
             icon={getIcon(contact.environment)}
-          >
-            <Popup>{contact.trackID}</Popup>
-          </Marker>
+            eventHandlers={{
+              click: () => selectOne(contact.trackID),
+            }}
+          />
         ))}
     </LayerGroup>
   );

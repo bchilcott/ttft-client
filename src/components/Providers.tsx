@@ -1,28 +1,20 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import theme from '~/theme';
-import useContactsStore from '~/state/useContactsStore';
-import { updateContact } from '~/utils/contactUtils';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-const PERIOD_IN_SECONDS = 1;
+const queryClient = new QueryClient();
 
 export default function Providers({ children }: { children: ReactNode }) {
-  const { contacts, setAll } = useContactsStore();
-
-  useEffect(() => {
-    const int = setInterval(() => {
-      const updated = contacts.map((contact) => updateContact(contact, 1));
-      setAll(updated);
-    }, 1000 * PERIOD_IN_SECONDS);
-
-    return () => clearInterval(int);
-  }, [contacts, setAll]);
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools position="bottom-right" />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }

@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 
-import useContactsStore from '~/state/useContactsStore';
+import useContactsStore from '~/hooks/useContactsStore';
 
 export type ConfirmResetDialogProps = {
   isOpen: boolean;
