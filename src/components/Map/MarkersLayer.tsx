@@ -89,6 +89,7 @@ export default function MarkersLayer(props: MarkersLayerProps) {
         updateContactPosition(contact, 1)
       );
       setAll(updated);
+      // TODO: POST to some ACE endpoint
     }, 1000 * PERIOD_IN_SECONDS);
 
     return () => clearInterval(int);
