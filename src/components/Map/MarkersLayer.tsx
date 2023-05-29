@@ -86,7 +86,7 @@ export default function MarkersLayer(props: MarkersLayerProps) {
   useEffect(() => {
     const int = setInterval(() => {
       const updated = contacts.map((contact) =>
-        updateContactPosition(contact, 1)
+        updateContactPosition(contact, PERIOD_IN_SECONDS)
       );
       setAll(updated);
       // TODO: POST to some ACE endpoint
