@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
-import { Box, CircularProgress, Container, Stack } from '@mui/material';
+import { Box, CircularProgress, Stack } from '@mui/material';
 
 import AppToolbar from '~/components/AppToolbar';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
@@ -50,7 +50,7 @@ export default function Home() {
       </Head>
       <Stack className={`${roboto.className}`} sx={{ height: '100vh' }}>
         <AppToolbar />
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, overflow: 'clip' }}>
           <PanelGroup direction="horizontal">
             <Panel defaultSize={70} onResize={onResize}>
               <LeafletMap onLoad={setMap} />
