@@ -6,8 +6,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-
-import useContactsStore from '~/hooks/useContactsStore';
+import { useDeleteAllContacts } from '~/hooks/contacts';
 
 export type ConfirmResetDialogProps = {
   isOpen: boolean;
@@ -15,14 +14,14 @@ export type ConfirmResetDialogProps = {
 };
 
 export default function ConfirmResetDialog(props: ConfirmResetDialogProps) {
-  const reset = useContactsStore((state) => state.reset);
+  const { mutate: deleteAllContacts } = useDeleteAllContacts();
 
   function handleClose() {
     props.setIsOpen(false);
   }
 
   function handleReset() {
-    reset();
+    deleteAllContacts();
     props.setIsOpen(false);
   }
 

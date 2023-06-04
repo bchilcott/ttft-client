@@ -7,9 +7,11 @@ import AppToolbar from '~/components/AppToolbar';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { useState } from 'react';
 import { Map } from 'leaflet';
-import SidePanel from '~/components/SidePanel/SidePanel';
+import ContactDetails from '~/components/SidePanel/ContactDetails';
+import TabPanel from '~/components/common/TabPanel';
+import ContactsTable from '~/components/ContactsTable';
 
-const LeafletMap = dynamic(() => import('~/components/Map'), {
+const LeafletMap = dynamic(() => import('~/components/Map/Map'), {
   ssr: false,
   loading: () => (
     <Box
@@ -34,6 +36,14 @@ const roboto = Roboto({
 
 export default function Home() {
   const [map, setMap] = useState<Map | null>(null);
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleTabChange = (
+    _event: React.SyntheticEvent,
+    newTabIndex: number
+  ) => {
+    setTabIndex(newTabIndex);
+  };
 
   // Continuously update the map size when split view is resized
   const onResize = () => {
@@ -49,21 +59,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Stack className={`${roboto.className}`} sx={{ height: '100vh' }}>
-        <AppToolbar />
-        <Box sx={{ flexGrow: 1, overflow: 'clip' }}>
+        <AppToolbar onTabChange={handleTabChange} tabIndex={tabIndex} />
+        <Box sx={{ height: '100%' }}>
           <PanelGroup direction="horizontal">
             <Panel defaultSize={70} onResize={onResize}>
-              <LeafletMap onLoad={setMap} />
+              <TabPanel index={0} value={tabIndex}>
+                <LeafletMap onLoad={setMap} />
+              </TabPanel>
+              <TabPanel index={1} value={tabIndex}>
+                <Box sx={{ p: 2, height: '100%' }}>
+                  <ContactsTable />
+                </Box>
+              </TabPanel>
             </Panel>
             <PanelResizeHandle style={{ width: '4px' }} />
             <Panel defaultSize={30} minSize={20} maxSize={40}>
-              <Box
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                }}
-              >
-                <SidePanel />
+              <Box sx={{ height: '100%' }}>
+                <ContactDetails />
               </Box>
             </Panel>
           </PanelGroup>

@@ -1,12 +1,25 @@
 import { useState } from 'react';
-import { AppBar, Button, Stack, Toolbar, Typography } from '@mui/material';
+import {
+  AppBar,
+  Button,
+  Stack,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 
 import ConfirmResetDialog from '~/components/ConfirmResetDialog';
-import useContactsStore from '~/hooks/useContactsStore';
+import { useContacts } from '~/hooks/contacts';
 
-export default function AppToolbar() {
+type AppToolbarProps = {
+  onTabChange: (event: React.SyntheticEvent, newTabIndex: number) => void;
+  tabIndex: number;
+};
+
+export default function AppToolbar(props: AppToolbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const contacts = useContactsStore((state) => state.contacts);
+  const { data: contacts } = useContacts();
 
   function saveFile() {
     const a = document.createElement('a');
@@ -26,6 +39,14 @@ export default function AppToolbar() {
           <Typography variant="h5">
             ACE <b>TTFT</b>
           </Typography>
+          <Tabs
+            sx={{ borderBottom: 1, borderColor: 'divider', ml: 4 }}
+            value={props.tabIndex}
+            onChange={props.onTabChange}
+          >
+            <Tab label="Map" />
+            <Tab label="Data" />
+          </Tabs>
           <Stack ml="auto" spacing={2} direction="row">
             <Button variant="contained" onClick={saveFile}>
               Save

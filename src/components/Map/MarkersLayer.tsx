@@ -1,48 +1,27 @@
-import { Icon, icon } from 'leaflet';
+import { divIcon } from 'leaflet';
 import { useEffect } from 'react';
 import { LayerGroup, Marker, useMapEvents } from 'react-leaflet';
 import { PlacementMode } from '~/components/Map/MapActions';
+import { useContacts, useCreateContact } from '~/hooks/contacts';
+import ms from 'milsymbol';
 
 import useContactsStore from '~/hooks/useContactsStore';
-import Contact, { Environment } from '~/types/Contact';
-import { updateContactPosition } from '~/utils/contactUtils';
+import { Environment, CreateContactDto } from '~/types/Contact';
 
-const ICON_RED = icon({
-  iconUrl:
-    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-});
-
-const ICON_GREEN = icon({
-  iconUrl:
-    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-});
-
-const ICON_BLUE = icon({
-  iconUrl:
-    'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-});
+const thing = new ms.Symbol('SFGP------------', { size: 25 });
 
 function createContact(
   position: [number, number],
   environment: Environment
-): Contact {
+): CreateContactDto {
   return {
     name: 'Test',
-    dataSource: 'TTFT',
-    trackID: Math.random().toString(36).substr(2, 9).toUpperCase(),
     type: 'HELLO',
-    systemID: 'CHALLENGER',
+    systemId: 'CHALLENGER',
     environment: environment,
     course: Math.random() * 360,
     speed: 100,
     speedUnit: 'MPH',
-    stale: false,
     operation: 'NEW',
     attitude: {
       pitch: 0,
@@ -53,47 +32,26 @@ function createContact(
       latitude: position[0],
       longitude: position[1],
       altitude: 0,
-      altitudeUnit: 'FT AMSL',
+      altitudeUnit: 'FT_AMSL',
     },
   };
 }
 
-function getIcon(environment: Environment): Icon {
-  switch (environment) {
-    case 'AIR':
-      return ICON_RED;
-    case 'LAND':
-      return ICON_GREEN;
-    case 'SURFACE':
-      return ICON_BLUE;
-    default:
-      return ICON_RED;
-  }
-}
-
 export type MarkersLayerProps = {
   placementMode: PlacementMode;
-  onContactCreated?: (contact: Contact) => void;
+  onContactCreated?: (contact: CreateContactDto) => void;
 };
 
-const PERIOD_IN_SECONDS = 1;
-
 export default function MarkersLayer(props: MarkersLayerProps) {
-  const { contacts, add, setAll, selectOne } = useContactsStore(
-    (state) => state
-  );
+  const { selectOne } = useContactsStore((state) => state);
+  const mutation = useCreateContact();
+  const { data: contacts } = useContacts();
 
   useEffect(() => {
-    const int = setInterval(() => {
-      const updated = contacts.map((contact) =>
-        updateContactPosition(contact, PERIOD_IN_SECONDS)
-      );
-      setAll(updated);
-      // TODO: POST to some ACE endpoint
-    }, 1000 * PERIOD_IN_SECONDS);
-
-    return () => clearInterval(int);
-  }, [contacts, setAll]);
+    if (mutation.isSuccess) {
+      selectOne(mutation.data.trackId);
+    }
+  }, [mutation.isSuccess, mutation.data, selectOne]);
 
   useMapEvents({
     click: (e) => {
@@ -102,7 +60,7 @@ export default function MarkersLayer(props: MarkersLayerProps) {
         [e.latlng.lat, e.latlng.lng],
         props.placementMode
       );
-      add(contact);
+      mutation.mutate(contact);
       props.onContactCreated?.(contact);
     },
   });
@@ -114,9 +72,9 @@ export default function MarkersLayer(props: MarkersLayerProps) {
           <Marker
             key={index}
             position={[contact.position.latitude, contact.position.longitude]}
-            icon={getIcon(contact.environment)}
+            icon={divIcon({ html: thing.asSVG(), className: 'marker' })}
             eventHandlers={{
-              click: () => selectOne(contact.trackID),
+              click: () => selectOne(contact.trackId),
             }}
           />
         ))}

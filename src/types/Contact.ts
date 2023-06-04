@@ -30,12 +30,12 @@ export type Position = {
   altitudeUnit: AltitudeUnit;
 };
 
-type Contact = {
+export type Contact = {
   name: string;
   dataSource: string;
-  trackID: string;
+  trackId: string;
   type: string;
-  systemID: string;
+  systemId: string;
   environment: Environment;
   course: number;
   speed: number;
@@ -46,4 +46,15 @@ type Contact = {
   position: Position;
 };
 
-export default Contact;
+export type CreateContactDto = {
+  name: string;
+  type: string;
+  systemId: string;
+  environment: Environment;
+  course: number;
+  speed: number;
+  speedUnit: SpeedUnit;
+  operation: Operation;
+  attitude: Attitude;
+  position: Position;
+};
