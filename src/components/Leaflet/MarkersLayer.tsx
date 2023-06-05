@@ -1,7 +1,7 @@
 import { divIcon } from 'leaflet';
 import { useEffect } from 'react';
 import { LayerGroup, Marker, useMapEvents } from 'react-leaflet';
-import { PlacementMode } from '~/components/Map/MapActions';
+import { PlacementMode } from '~/components/Leaflet/MapActions';
 import { useContacts, useCreateContact } from '~/hooks/contacts';
 import ms from 'milsymbol';
 

@@ -2,16 +2,32 @@ import dynamic from 'next/dynamic';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
 import { Box, CircularProgress, Stack } from '@mui/material';
+import 'cesium/Build/Cesium/Widgets/widgets.css';
 
 import AppToolbar from '~/components/AppToolbar';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import { useState } from 'react';
-import { Map } from 'leaflet';
 import ContactDetails from '~/components/SidePanel/ContactDetails';
 import TabPanel from '~/components/common/TabPanel';
 import ContactsTable from '~/components/ContactsTable';
 
-const LeafletMap = dynamic(() => import('~/components/Map/Map'), {
+const CesiumMap = dynamic(() => import('~/components/Cesium/Map'), {
+  ssr: false,
+  loading: () => (
+    <Box
+      sx={{
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <CircularProgress />
+    </Box>
+  ),
+});
+
+const LeafletMap = dynamic(() => import('~/components/Leaflet/Map'), {
   ssr: false,
   loading: () => (
     <Box
@@ -35,7 +51,6 @@ const roboto = Roboto({
 });
 
 export default function Home() {
-  const [map, setMap] = useState<Map | null>(null);
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabChange = (
@@ -43,11 +58,6 @@ export default function Home() {
     newTabIndex: number
   ) => {
     setTabIndex(newTabIndex);
-  };
-
-  // Continuously update the map size when split view is resized
-  const onResize = () => {
-    map && map.invalidateSize();
   };
 
   return (
@@ -62,11 +72,14 @@ export default function Home() {
         <AppToolbar onTabChange={handleTabChange} tabIndex={tabIndex} />
         <Box sx={{ height: '100%' }}>
           <PanelGroup direction="horizontal">
-            <Panel defaultSize={70} onResize={onResize}>
+            <Panel defaultSize={70}>
               <TabPanel index={0} value={tabIndex}>
-                <LeafletMap onLoad={setMap} />
+                <LeafletMap />
               </TabPanel>
               <TabPanel index={1} value={tabIndex}>
+                <CesiumMap />
+              </TabPanel>
+              <TabPanel index={2} value={tabIndex}>
                 <Box sx={{ p: 2, height: '100%' }}>
                   <ContactsTable />
                 </Box>

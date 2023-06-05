@@ -44,7 +44,8 @@ export default function AppToolbar(props: AppToolbarProps) {
             value={props.tabIndex}
             onChange={props.onTabChange}
           >
-            <Tab label="Map" />
+            <Tab label="Leaflet" />
+            <Tab label="Cesium" />
             <Tab label="Data" />
           </Tabs>
           <Stack ml="auto" spacing={2} direction="row">
