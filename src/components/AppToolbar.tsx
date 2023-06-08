@@ -17,6 +17,20 @@ type AppToolbarProps = {
   tabIndex: number;
 };
 
+function getFileName() {
+  const currentDate = new Date();
+
+  // Get day, month, year, hours, and minutes
+  const year = String(currentDate.getFullYear());
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(currentDate.getDate()).padStart(2, '0');
+
+  // Concatenate the date and time components
+  const fileName = `contacts_${year}-${month}-${day}.json`;
+
+  return fileName;
+}
+
 export default function AppToolbar(props: AppToolbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { data: contacts } = useContacts();
@@ -26,7 +40,7 @@ export default function AppToolbar(props: AppToolbarProps) {
     const file = new Blob([JSON.stringify(contacts)], { type: 'text/plain' });
 
     a.href = URL.createObjectURL(file);
-    a.download = 'contacts.json';
+    a.download = `${getFileName()}`;
     a.click();
     a.remove();
   }

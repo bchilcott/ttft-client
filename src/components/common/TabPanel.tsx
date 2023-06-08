@@ -1,4 +1,5 @@
 import { Box } from '@mui/system';
+import { useEffect, useState } from 'react';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -8,6 +9,13 @@ interface TabPanelProps {
 
 export default function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
+  const [hasLoaded, setHasLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!hasLoaded && value == index) {
+      setHasLoaded(true);
+    }
+  }, [value, hasLoaded, index]);
 
   return (
     <div
@@ -18,7 +26,7 @@ export default function TabPanel(props: TabPanelProps) {
       style={{ height: '100%' }}
       {...other}
     >
-      {value === index && <Box sx={{ height: '100%' }}>{children}</Box>}
+      {hasLoaded && <Box sx={{ height: '100%' }}>{children}</Box>}
     </div>
   );
 }

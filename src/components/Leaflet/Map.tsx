@@ -24,7 +24,6 @@ const LeafletMap = forwardRef((props: LeafletMapProps, _ref: Ref<Map>) => {
           backgroundColor: '#222222',
           height: '100%',
           width: '100%',
-          cursor: placementMode === 'NONE' ? 'grab' : 'crosshair',
         }}
         zoomControl={false}
         attributionControl={false}

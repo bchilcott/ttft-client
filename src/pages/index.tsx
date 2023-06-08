@@ -10,6 +10,7 @@ import { useState } from 'react';
 import ContactDetails from '~/components/SidePanel/ContactDetails';
 import TabPanel from '~/components/common/TabPanel';
 import ContactsTable from '~/components/ContactsTable';
+import { Map } from 'leaflet';
 
 const CesiumMap = dynamic(() => import('~/components/Cesium/Map'), {
   ssr: false,
@@ -52,6 +53,7 @@ const roboto = Roboto({
 
 export default function Home() {
   const [tabIndex, setTabIndex] = useState(0);
+  const [map, setMap] = useState<Map>();
 
   const handleTabChange = (
     _event: React.SyntheticEvent,
@@ -70,11 +72,11 @@ export default function Home() {
       </Head>
       <Stack className={`${roboto.className}`} sx={{ height: '100vh' }}>
         <AppToolbar onTabChange={handleTabChange} tabIndex={tabIndex} />
-        <Box sx={{ height: '100%' }}>
+        <Box sx={{ height: '100%', overflowY: 'hidden' }}>
           <PanelGroup direction="horizontal">
-            <Panel defaultSize={70}>
+            <Panel defaultSize={70} onResize={() => map?.invalidateSize()}>
               <TabPanel index={0} value={tabIndex}>
-                <LeafletMap />
+                <LeafletMap onLoad={setMap} />
               </TabPanel>
               <TabPanel index={1} value={tabIndex}>
                 <CesiumMap />
